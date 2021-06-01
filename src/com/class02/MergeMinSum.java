@@ -73,7 +73,7 @@ public class MergeMinSum {
         return res;
     }
 
-    // for test
+    // for test d
     public static void printArray(int[] arr) {
         if (arr == null) {
             return;

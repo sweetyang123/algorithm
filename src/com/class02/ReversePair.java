@@ -1,10 +1,10 @@
-package com.class01;
+package com.class02;
 
 /**
- *3、在一个数组中，对于每个数num,求有多少个后面的数*2<num，求总个数
+ *求一个数组的（X，Y）逆序对，X>Y，且X的位置在Y的前面
  */
-public class BiggerThanRightTwice {
-    public static int biggerTwice(int[] arr){
+public class ReversePair {
+    public static int reversePair(int[] arr){
         if (arr.length<2||arr==null)return 0;
         return process(arr,0,arr.length-1);
     }
@@ -16,27 +16,30 @@ public class BiggerThanRightTwice {
 
     private static int merge(int[] arr, int l, int m, int r) {
         int[] help=new int[r-l+1];
-        int sum=0,winR=m+1;int i=0;
-        int p1=l,p2=m+1;
-        for (int j = l; j <m+1 ; j++) {
-            while (winR<=r&&arr[j]>arr[winR]*2){
-                winR++;
+        int N=help.length-1;int i=N;
+        int p1=m,p2=r;
+        int sum=0;
+        while (p1>=l&&p2>m){
+            if (arr[p1]>arr[p2]){
+                for (int j = m+1; j <=p2; j++) {
+//                    输出逆序对
+                    System.out.print(arr[p1]+"---"+arr[j]+"；");
+                }
             }
-            sum+=winR-m-1;
+            //倒序判断累加
+            sum+=arr[p1]>arr[p2]?(p2-m):0;
+            help[i--]=arr[p1]>arr[p2]?arr[p1--]:arr[p2--];
         }
-        while (p1<=m&&p2<=r){
-            help[i++]=arr[p1]<=arr[p2]?arr[p1++]:arr[p2++];
+        while (p1>=l){
+            help[i--]=arr[p1--];
         }
-        while (p1<=m){
-            help[i++]=arr[p1++];
-        }
-        while (p2<=r){
-            help[i++]=arr[p2++];
+        while (p2>m){
+            help[i--]=arr[p2--];
         }
         for (int j = 0; j < help.length; j++) {
             arr[l+j]=help[j];
         }
-        return sum;
+        return  sum;
     }
 
     // for test
@@ -44,7 +47,7 @@ public class BiggerThanRightTwice {
         int ans = 0;
         for (int i = 0; i < arr.length; i++) {
             for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i] > (arr[j] << 1)) {
+                if (arr[i] > arr[j]) {
                     ans++;
                 }
             }
@@ -56,7 +59,7 @@ public class BiggerThanRightTwice {
     public static int[] generateRandomArray(int maxSize, int maxValue) {
         int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) ((maxValue + 1) * Math.random());
+            arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
         }
         return arr;
     }
@@ -105,25 +108,24 @@ public class BiggerThanRightTwice {
 
     // for test
     public static void main(String[] args) {
-        int testTime = 50000;
-        int maxSize = 100;
-        int maxValue = 100;
-        boolean flag=true;
+        int testTime = 1;
+        int maxSize = 5;
+        int maxValue = 10;
+        boolean succed=true;
         System.out.println("测试开始");
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-//            printArray(arr1);
-//            System.out.println(biggerTwice(arr1)+"====="+comparator(arr2));
-            if (biggerTwice(arr1) != comparator(arr2)) {
-                System.out.println("Oops!");
-                printArray(arr1);
-                printArray(arr2);
-                flag=false;
-                break;
-            }
+            printArray(arr1);
+            System.out.println(reversePair(arr1)+"======="+comparator(arr2));
+//            if (reversePair(arr1) != comparator(arr2)) {
+//                succed=false;
+//                System.out.println("Oops!");
+//                printArray(arr1);
+//                printArray(arr2);
+//                break;
+//            }
         }
-        System.out.println("测试结束"+(flag?"Nice":"Bad"));
+        System.out.println("测试结束"+(succed?"Nice":"Bad"));
     }
-
 }
