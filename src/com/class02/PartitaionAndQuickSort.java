@@ -1,6 +1,8 @@
 package com.class02;
 
-
+/**
+ * 随机快排
+ */
 public class PartitaionAndQuickSort {
 
     public static void quickSort(int[] arr) {
@@ -16,7 +18,7 @@ public class PartitaionAndQuickSort {
        process(arr,L,equalArea[0]-1);
        process(arr,equalArea[1]+1,R);
     }
-
+    //荷兰国旗划分
     private static int[] netherlandsFlag(int[] arr, int l, int r) {
         if (l>r)return  new int[]{-1,-1};
         if (l==r)return new int[]{l,r};
