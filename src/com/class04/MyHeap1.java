@@ -85,7 +85,7 @@ public class MyHeap1 {
             //向上使其有序
             insertHeap(index);
             //向下使其有序
-            heapify(index,heapsize);
+                heapify(index,heapsize);
         }
 
         public static void main(String[] args) {
