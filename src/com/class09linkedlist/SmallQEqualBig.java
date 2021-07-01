@@ -44,7 +44,7 @@ public class SmallQEqualBig {
         Node bH=null;
         Node bT=null;
         Node cur = head;
-        Node temp = head;
+        Node temp;
         while (cur!=null){
             temp=cur;
             temp.next=null;
@@ -56,16 +56,31 @@ public class SmallQEqualBig {
                     sT.next=temp;
                     sT=temp;
                 }
-            }else if(cur.value==num){
-                eH=cur;
-                eT=cur;
-                eT=eT.next;
+            }else if(temp.value==num){
+                if (eH==null){
+                    eH=temp;
+                    eT=temp;
+                }else {
+                    eT.next=temp;
+                    eT=temp;
+                }
             }else {
-                bH=cur;
-                bT=cur;
-                bT=bT.next;
+                if (bH==null){
+                    bH=temp;
+                    bT=temp;
+                }else {
+                    bT.next=temp;
+                    bT=temp;
+                }
             }
             cur = cur.next;
+        }
+        if (sT!=null){
+            sT.next=eH;
+            eT=eT==null?bH:eT;
+        }
+        if (eT!=null){
+            eT.next=bH;
         }
         return head;
     }
