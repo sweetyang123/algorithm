@@ -1,5 +1,10 @@
 package com.class09linkedlist;
 
+/**
+ * 给定头节点的单向链表，按某值划分成左边小、中间相等、右边大的形式
+ * 笔试：①partition方式
+ * 面试：②6个常量
+ */
 public class SmallQEqualBig {
     public  static class Node{
         int value;
@@ -35,6 +40,13 @@ public class SmallQEqualBig {
 //        return nodes[0];
         return head;
     }
+
+    /**
+     * 用6个常量解决分别给每个区分配一个head，tail
+     * @param head
+     * @param num
+     * @return
+     */
     private static Node samllEqualBig(Node head,int num){
         if (head==null||head.next==null)return head;
         Node sH=null;
@@ -45,50 +57,50 @@ public class SmallQEqualBig {
         Node bT=null;
         Node cur = head;
         Node temp;
+        //将大于区，小于区，等于区，区分出来，如sH=1，sT=1->2->3
         while (cur!=null){
-            temp=cur;
-            temp.next=null;
-            if (temp.value<num){
+            //先将next节点记录下来，避免找不到后续节点
+            temp=cur.next;
+            cur.next=null;
+            if (cur.value<num){
                 if (sH==null){
-                    sH=temp;
-                    sT=temp;
+                    sH=cur;
+                    sT=cur;
                 }else {
-                    sT.next=temp;
-                    sT=temp;
+                    sT.next=cur;
+                    sT=cur;
                 }
-            }else if(temp.value==num){
+            }else if(cur.value==num){
                 if (eH==null){
-                    eH=temp;
-                    eT=temp;
+                    eH=cur;
+                    eT=cur;
                 }else {
-                    eT.next=temp;
-                    eT=temp;
+                    eT.next=cur;
+                    eT=cur;
                 }
             }else {
                 if (bH==null){
-                    bH=temp;
-                    bT=temp;
+                    bH=cur;
+                    bT=cur;
                 }else {
-                    bT.next=temp;
-                    bT=temp;
+                    bT.next=cur;
+                    bT=cur;
                 }
             }
-            cur = cur.next;
+            cur = temp;
         }
+        //判断每个区是否都有数据
         if (sT!=null){
-            sT.next=eH;
-            eT=eT==null?bH:eT;
+            sT.next=eH==null?bH:eH;
         }
         if (eT!=null){
-            eT.next=bH;
+            eT.next=bH==null?null:bH;
         }
-        return head;
+        return sH==null?(eH==null?bH:eH):sH;
     }
 
     private static void addPartition(Node[] nodes, int num) {
-        int l=-1;
-        int index=0;
-        int r=nodes.length;
+       int l=-1;int index=0;int r=nodes.length;
        while (index!=r){
            if (nodes[index].value<num){
                swap(nodes,++l,index++);
@@ -107,13 +119,30 @@ public class SmallQEqualBig {
     }
 
     public static void main(String[] args) {
-        int testSize=10;
-        int testValue=10;
-       Node node= getRadomLinkedList(testSize,testValue);
-       printN(node);
-       Node node1= node;
-       partition01(node1,6);
-       printN(node);
+        int testSize=100;
+        int testValue=100;
+        int testTime=100000;
+        boolean flag=true;
+        int num=0;
+        for (int i = 0; i < testTime; i++) {
+            num++;
+            Node node= getRadomLinkedList(testSize,testValue);
+            Node node1= node;
+            Node node01=partition01(node1,num);
+            Node node02=samllEqualBig(node,num);
+            while (node01!=null){
+                if (node01.value!=node02.value){
+                    flag=false;
+                    printN(node);
+                    printN(node01);
+                    printN(node02);
+                }
+                node01=node01.next;
+                node02=node02.next;
+            }
+            if (num>testValue)num=0;
+        }
+        if (flag) System.out.println("success");
 
     }
     private static Node getRadomLinkedList(int testSize, int testValue) {

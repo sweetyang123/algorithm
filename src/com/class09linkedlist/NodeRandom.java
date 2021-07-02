@@ -18,31 +18,31 @@ public class NodeRandom {
         public Node(int value) {
             this.value = value;
         }
-        /**
-         * 哈希表实现
-         * @param head
-         * @return
-         */
-        private static Node copyRandomNode_01(Node head){
-            if (head==null)return null;
-            Node cur=head;
-            HashMap<Node,Node> map = new HashMap();
-            //将链表的节点对象和值放到哈希表里
-            while (cur!=null){
-                map.put(cur,new Node(cur.value) );
-                cur= cur.next;
-            }
-            cur=head;
-            //根据节点对象在哈希表中找到next节点和random节点
-            while (cur!=null){
-               map.get(cur).next = map.get(cur.next);
-               map.get(cur).random = map.get(cur.random);
-                cur= cur.next;
-            }
-            return map.get(head);
-        }
-    }
 
+    }
+    /**
+     * 哈希表实现
+     * @param head
+     * @return
+     */
+    private static Node copyRandomNode_01(Node head){
+        if (head==null)return null;
+        Node cur=head;
+        HashMap<Node,Node> map = new HashMap();
+        //将链表的节点对象和值放到哈希表里
+        while (cur!=null){
+            map.put(cur,new Node(cur.value) );
+            cur= cur.next;
+        }
+        cur=head;
+        //根据节点对象在哈希表中找到next节点和random节点
+        while (cur!=null){
+            map.get(cur).next = map.get(cur.next);
+            map.get(cur).random = map.get(cur.random);
+            cur= cur.next;
+        }
+        return map.get(head);
+    }
     /**
      * @param head
      * @return
@@ -66,13 +66,13 @@ public class NodeRandom {
         }
         cur=head;
         Node head1=cur.next;
+//        只有一个节点时直接返回
         if(head1.next==null)return head1;
-        while (cur!=null){
+        while (head1.next.next!=null){
             cur=cur.next.next;
             head1=head1.next.next;
         }
-
-        return head;
+        return head1;
     }
     public static void main(String[] args) {
         Node head = new Node(1);
@@ -85,6 +85,16 @@ public class NodeRandom {
         head.next.next.random= head;
         head.next.next.next.random= head.next;
         head.next.next.next.next.random= head.next.next;
-
+        Node node01=copyRandomNode_01(head);
+        Node node02=copyRandomNode_02(head);
+        boolean flag=true;
+        while (node01!=null){
+            if (node01.value!=node02.value||node01.random.value!=node02.random.value){
+                flag=false;
+            }
+            node01=node01.next;
+            node02=node02.next;
+        }
+        if (flag) System.out.println("success");
     }
 }
