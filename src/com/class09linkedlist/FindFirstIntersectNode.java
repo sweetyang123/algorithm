@@ -21,17 +21,9 @@ public class FindFirstIntersectNode {
         public Node(int value) {
             this.value = value;
         }
-
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "value=" + value +
-                    '}';
-        }
     }
     //先查看链表是否有环并输出第一个成环节点:哈希表实现，在表里有值了就代表成环了
     private static Node isIntersect_01(Node head){
-//        if (head==null)return head;
         Node cur=head;
         HashMap<Node,Node> map = new HashMap<>();
         while (cur!=null){
@@ -63,7 +55,7 @@ public class FindFirstIntersectNode {
         slow=head;
         while (slow!=fast){
             slow=slow.next;
-            fast=fast.next.next;
+            fast=fast.next;
         }
         return slow;
     }
@@ -86,19 +78,24 @@ public class FindFirstIntersectNode {
             count--;
             cur2=cur2.next;
         }
-        cur1=head1;
-        cur2=head2;
-
-        if (count >= 0) {
-            while (count-->0){
-                cur1=cur1.next;
-            }
-        }else {
-            count = Math.abs(count);
-            while (count-->0){
-                cur2=cur2.next;
-            }
+        cur1=count>0?head1:head2;
+        cur2=cur1==head1?head2:head1;
+        count = Math.abs(count);
+        while (count-->0){
+            cur1=cur1.next;
         }
+//        cur1=head1;
+//        cur2=head2;
+//        if (count >= 0) {
+//            while (count-->0){
+//                cur1=cur1.next;
+//            }
+//        }else {
+//            count = Math.abs(count);
+//            while (count-->0){
+//                cur2=cur2.next;
+//            }
+//        }
         while (cur1!=null){
             if (cur1.value==cur2.value)return cur1;
             cur1=cur1.next;
@@ -108,9 +105,49 @@ public class FindFirstIntersectNode {
     }
     /**
      * 有环相交（都有环）
-     * @param args
      */
-
+    public static Node cyliIntersect(Node head1,Node head2,Node loop1,Node loop2) {
+        Node cur1=head1;
+        Node cur2=head2;
+        //相交节点相同，则是Y字形共用节点共用环相交
+        if (loop1==loop2){
+            int count=0;
+            while (cur1!=loop1){
+                count++;
+                cur1=cur1.next;
+            }
+            while (cur2!=loop2){
+                count--;
+                cur2=cur2.next;
+            }
+            cur1=count>0?head1:head2;
+            cur2=cur1==head1?head2:head1;
+            count=Math.abs(count);
+            while (count-->0){
+                cur1=cur1.next;
+            }
+            while (cur1!=null){
+                if (cur1.value==cur2.value)return cur1;
+                cur1=cur1.next;
+                cur2=cur2.next;
+            }
+        }else {//共用一个环加两横的形式
+            cur1=loop1.next;
+            while (cur1!=loop1){
+                if (cur1==loop2)return loop2;
+                cur1=cur1.next;
+            }
+        }
+          return null;
+    }
+    private static Node firstIntersect(Node head1,Node head2){
+        if (head1==null||head2 ==null)return null;
+        Node loop1 = isIntersect_02(head1);
+        Node loop2 = isIntersect_02(head2);
+        if (loop1==null&&loop2==null){return acyliIntersect(head1,head2);}
+        else if (loop1!=null&&loop2!=null){return cyliIntersect(head1,head2,loop1,loop2);}
+        return null;
+    }
     public static void main(String[] args) {
         Node head1 = new Node(1);
         head1.next = new Node(2);
@@ -125,7 +162,7 @@ public class FindFirstIntersectNode {
         head2.next = new Node(9);
         head2.next.next = new Node(8);
         head2.next.next.next = head1.next.next.next.next.next; // 8->6
-        System.out.println(acyliIntersect(head1, head2).value);
+        System.out.println(firstIntersect(head1, head2).value);
 
         // 1->2->3->4->5->6->7->4...
         head1 = new Node(1);
@@ -142,13 +179,13 @@ public class FindFirstIntersectNode {
         head2.next = new Node(9);
         head2.next.next = new Node(8);
         head2.next.next.next = head1.next; // 8->2
-        System.out.println(acyliIntersect(head1, head2).value);
+        System.out.println(firstIntersect(head1, head2).value);
 //
 //        // 0->9->8->6->4->5->6..
-//        head2 = new Node(0);
-//        head2.next = new Node(9);
-//        head2.next.next = new Node(8);
-//        head2.next.next.next = head1.next.next.next.next.next; // 8->6
-//        System.out.println(getIntersectNode(head1, head2).value);
+        head2 = new Node(0);
+        head2.next = new Node(9);
+        head2.next.next = new Node(8);
+        head2.next.next.next = head1.next.next.next.next.next; // 8->6
+        System.out.println(firstIntersect(head1, head2).value);
     }
 }
