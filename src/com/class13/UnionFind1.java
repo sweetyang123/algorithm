@@ -12,7 +12,7 @@ import java.util.Stack;
  * void union(V x, V y) : 把x和y各自所在集合的所有样本合并成一个集合
  * isSameSet和union方法的代价越低越好
  *
- * 1）每个节点都有一条往上指的指针
+ *  1）每个节点都有一条往上指的指针
  * 2）节点a往上找到的头节点，叫做a所在集合的代表节点
  * 3）查询x和y是否属于同一个集合，就是看看找到的代表节点是不是一个
  * 4）把x和y各自所在集合的所有点合并成一个集合，只需要小集合的代表点挂在大集合的代表点的下方即可
@@ -21,21 +21,22 @@ import java.util.Stack;
  * 2）小集合挂在大集合的下面
  * 3）如果方法调用很频繁，那么单次调用的代价为O(1)，两个方法都如此
  */
-public class UnionFind {
+public class UnionFind1 {
     private static class Node<V>{
         V value;
         public Node(V value) {
             this.value = value;
         }
     }
-    static class UnionFind1<V>{
+    static class UnionFind<V>{
         public HashMap<V,Node<V>> nodes;//装list里的数包裹一层放到nodes里
         public HashMap<Node<V>,Node<V>> parentMap;//将当前节点作为key，父节点作为value
         public HashMap<Node<V>,Integer> sizeMap;//将当前节点作为key，以当前节点为父节点的个数作为value
 
-        public UnionFind1(List<V> values) {
+        public UnionFind(List<V> values) {
             nodes=new HashMap<>();
-            parentMap=new HashMap<>();
+            parentMap=new
+                    HashMap<>();
             sizeMap=new HashMap<>();
             for (V cur:values) {
                 Node<V> node = new Node<>(cur);
