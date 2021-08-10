@@ -6,16 +6,18 @@ package com.class17violenceRecur;
 public class NQueen {
     public static int queen(int n){
         int[] arr = new int[n];
-       return process(arr,0);
+       return process(arr,0,n);
     }
-    private static int process(int[] arr,int i){
-        if (i==arr.length)return 1;
-        for (int j = i; j <arr.length ; j++) {
+    private static int process(int[] arr,int i,int n){
+        if (i==n)return 1;
+        int res=0;
+        for (int j = 0; j <arr.length ; j++) {
             if (isSelected(arr,i,j)){
-                process(arr,i+1);
+                arr[i]=j;
+                res+=process(arr,i+1,n);
             }
         }
-        return 0;
+        return res;
     }
 //    判断是否可以在该行该列放皇后，对角线绝对值之差相等判断
     private static boolean isSelected(int[] arr, int i, int j) {

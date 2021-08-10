@@ -18,16 +18,18 @@ public class AllPermutation {
     private static void process(char[] chars, int index, List<String> ans) {
 //            str[0...index-1]的位置已经确定了
             if (index==chars.length){
-                if (!ans.contains(String.valueOf(chars))){
                     ans.add(String.valueOf(chars));
-                    System.out.println(String.valueOf(chars));
-                }
             }
             //来确定str[index。。。]以后的位置，
+        boolean[] visited = new boolean[26];
         for (int i = index; i <chars.length ; i++) {
-            swap(chars,i,index);
-            process(chars,index+1,ans);
-            swap(chars,index,i);
+            //分支限界
+                if (!visited[chars[i]-'a']){
+                    visited[chars[i]-'a']=true;
+                    swap(chars,i,index);
+                    process(chars,index+1,ans);
+                    swap(chars,index,i);
+                }
         }
     }
 
@@ -38,6 +40,9 @@ public class AllPermutation {
     }
 
     public static void main(String[] args) {
-        allPerm("abcd");
+        List<String> res=allPerm("aac");
+        for (String str:res) {
+            System.out.println(str);
+        }
     }
 }
