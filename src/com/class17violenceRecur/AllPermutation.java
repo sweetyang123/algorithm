@@ -8,17 +8,20 @@ import java.util.List;
  * 每个字符串包含所有字符
  */
 public class AllPermutation {
-        private List<String> allPerm(String str){
+    private static List<String> allPerm(String str){
             char[] chars = str.toCharArray();
            List<String> ans = new ArrayList<>();
            process(chars,0,ans);
            return ans;
         }
 
-    private void process(char[] chars, int index, List<String> ans) {
+    private static void process(char[] chars, int index, List<String> ans) {
 //            str[0...index-1]的位置已经确定了
             if (index==chars.length){
-                ans.add(String.valueOf(chars));
+                if (!ans.contains(String.valueOf(chars))){
+                    ans.add(String.valueOf(chars));
+                    System.out.println(String.valueOf(chars));
+                }
             }
             //来确定str[index。。。]以后的位置，
         for (int i = index; i <chars.length ; i++) {
@@ -28,9 +31,13 @@ public class AllPermutation {
         }
     }
 
-    private void swap(char[] chars, int i, int index) {
+    private static void swap(char[] chars, int i, int index) {
             char temp=chars[i];
             chars[i]=chars[index];
             chars[index]=temp;
+    }
+
+    public static void main(String[] args) {
+        allPerm("abcd");
     }
 }
