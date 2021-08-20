@@ -1,7 +1,5 @@
 package com.class17violenceRecur;
 
-import java.util.Stack;
-
 /**
  * 给定一个整型数组arr，代表数值不同的纸牌排成一条线
  * 玩家A和玩家B依次拿走每张纸牌
@@ -25,6 +23,7 @@ public class CardsInLine {
         return Math.min(first(arr,l+1,r),first(arr,l,r-1));
     }
     private static int dpWays(int[] arr){
+        if (arr==null||arr.length==0)return 0;
         int N = arr.length;
         int[][] f = new int[N][N];
         int[][] s = new int[N][N];
@@ -32,11 +31,14 @@ public class CardsInLine {
         for (int i = 0; i <N ; i++) {
             f[i][i]=arr[i];
         }
+        //每条对角线可由上一条对角线推导出来
+//        （0，startCol）是每条对角线的开始
         for (int startCol = 1; startCol <N ; startCol++) {
             int l=0;int r=startCol;
             while (r<N){
                 f[l][r]= Math.max(arr[l]+s[l+1][r],arr[r]+s[l][r-1]);
                 s[l][r]= Math.min(f[l+1][r],f[l][r-1]);
+//                每条对角线上的位置，如(0,1),(1,2),(2,3)
                 l++;r++;
             }
         }
