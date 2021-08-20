@@ -24,10 +24,28 @@ public class CardsInLine {
         //先手拿走了l或r上的，由于在一个数组里后手只能拿剩下的小的
         return Math.min(first(arr,l+1,r),first(arr,l,r-1));
     }
+    private static int dpWays(int[] arr){
+        int N = arr.length;
+        int[][] f = new int[N][N];
+        int[][] s = new int[N][N];
+        //根据base case将对角线上的数填上
+        for (int i = 0; i <N ; i++) {
+            f[i][i]=arr[i];
+        }
+        for (int startCol = 1; startCol <N ; startCol++) {
+            int l=0;int r=startCol;
+            while (r<N){
+                f[l][r]= Math.max(arr[l]+s[l+1][r],arr[r]+s[l][r-1]);
+                s[l][r]= Math.min(f[l+1][r],f[l][r-1]);
+                l++;r++;
+            }
+        }
+        return Math.max(f[0][N-1],s[0][N-1]);
+    }
 
     public static void main(String[] args) {
         int[] arr=new int[]{4,13,23,11,24};
-        System.out.println(first(arr,0,arr.length-1));
-        System.out.println(second(arr,0,arr.length-1));
+        System.out.println(Math.max(first(arr,0,arr.length-1),second(arr,0,arr.length-1)));
+        System.out.println(dpWays(arr));
     }
 }
