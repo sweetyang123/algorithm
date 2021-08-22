@@ -1,4 +1,4 @@
-package com.class17violenceRecur;
+package com.class19;
 
 /**
  * 规定1和A对应、2和B对应、3和C对应...26和Z对应
@@ -26,8 +26,32 @@ public class ConvertToString {
         return way;
     }
 
+    /**
+     * 动态规划，根据只有一个可变参数，则傻缓存用一维数组
+     * @param str
+     * @return
+     */
+    private static int dpWays(String str){
+        if (str==null||str.length()==0)return 0;
+        char[] arr = str.toCharArray();
+        int N = arr.length;
+        int[] dp = new int[N+1];
+        //根据base case if (index==chars.length)return 1获得
+        dp[N]=1;
+//        根据递归获取dp[index]的值
+        for (int index = N-1; index >=0 ; index--) {
+            if (arr[index]=='0')dp[index]=0;
+            int way=dp[index+1];
+            if (index+1<N&&(arr[index]-'0')*10+(arr[index+1]-'0')<27){
+                way+=dp[index+2];
+            }
+            dp[index]=way;
+        }
+     return dp[0];
+    }
     public static void main(String[] args) {
-        String str ="111";
+        String str ="12312";
         System.out.println(convert(str));
+        System.out.println(dpWays(str));
     }
 }

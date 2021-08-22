@@ -38,7 +38,7 @@ public class NQueen {
     }
 
     /**
-     *
+     *位运算实现，速度快很多
      * @param limit 要达到的最终效果，前面都是0，后面n位是1
      * @param collimit 列限制
      * @param leftlimit 左斜线限制
