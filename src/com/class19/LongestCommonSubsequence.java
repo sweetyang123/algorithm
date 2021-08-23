@@ -10,10 +10,10 @@ package com.class19;
 public class LongestCommonSubsequence {
     /**
      * 一共可分以下几种情况找到最长公共子序列：
-     * ①、i-1，j-1
-     * ②、i-1，j
-     * ③、i，j-1
-     * ④、i，j
+     * ①、(i-1,j-1)
+     * ②、(i-1,j)
+     * ③、(i,j-1)
+     * ④、(i,j)
      * @param str1
      * @param str2
      * @return

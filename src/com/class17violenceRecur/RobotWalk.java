@@ -1,6 +1,5 @@
 package com.class17violenceRecur;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 /**
  * 假设有排成一行的N个位置，记为1~N，N 一定大于或等于 2
