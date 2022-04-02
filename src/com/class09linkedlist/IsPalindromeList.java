@@ -1,5 +1,6 @@
 package com.class09linkedlist;
 
+import java.util.LinkedHashMap;
 import java.util.Stack;
 
 /**
@@ -98,7 +99,26 @@ public class IsPalindromeList {
         }
         return true;
     }
+    public static boolean findNumberIn2DArray(int[][] matrix, int target) {
+        if (matrix==null||matrix.length==0)return false;
+        int j=matrix[0].length-1;
+        int i=0;
+        while(i<matrix.length&&j>=0){
+            // 从左下角开始
+            if(matrix[i][j]==target){
+                return true;
+                // 小于则向右走，i++
+            }else if(matrix[i][j]<target){
+                i++;
+                // 大于则向上走，j--
+            }else if(matrix[i][j]>target){
+                j--;
+            }
+        }
+        return false;
+    }
     public static void main(String[] args) {
+
         Node head = new Node(1);
         head.next= new Node(2);
         head.next.next= new Node(2);

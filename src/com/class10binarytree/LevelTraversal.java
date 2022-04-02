@@ -1,9 +1,7 @@
 package com.class10binarytree;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import javax.swing.tree.TreeNode;
+import java.util.*;
 
 /**
  * 按层遍历，就是宽度优先遍历
@@ -135,12 +133,74 @@ public class LevelTraversal {
         int testTimes = 1000000;
         for (int i = 0; i < testTimes; i++) {
             Node head = generateRandomBST(maxLevel, maxValue);
+            lt.levelOrder1(head);
             if (lt.MaxNodesWithLevel(head) != lt.MaxNodesQueue(head)) {
                 System.out.println("Oops!");
             }
         }
         System.out.println("finish!");
 
+    }
+
+    public List<List<Integer>> levelOrder(Node root) {
+        if(root==null) return new ArrayList(0);
+        int curLevel =1;
+        Map<Node,Integer> curMap= new HashMap<>();
+        curMap.put(root,curLevel);
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        List<List<Integer>> res=new ArrayList<>();
+        List<Integer> list=new ArrayList<>();
+
+        while(!queue.isEmpty()){
+            Node cur= queue.poll();
+            int tempLevel = curMap.get(cur);
+            int size = queue.size();
+            if(cur.left!=null){
+                queue.add(cur.left);
+                curMap.put(cur.left,tempLevel+1);
+            }
+            if(cur.right!=null){
+                queue.add(cur.right);
+                curMap.put(cur.right,tempLevel+1);
+            }
+            if(curLevel==tempLevel){
+                list.add(cur.value);
+            }else {
+                res.add(list);
+                list=new ArrayList<>();
+                list.add(cur.value);
+                curLevel++;
+            }
+        }
+        if (list.size()>0)res.add(list);
+        return res;
+    }
+    public List<List<Integer>> levelOrder1(Node root) {
+        if(root==null){return new ArrayList(0);}
+        Node cur = root;
+        Queue<Node> queue = new LinkedList<>();
+//        queue.
+        queue.add(cur);
+        LinkedList lis1 = new LinkedList();
+        List<List<Integer>> res = new ArrayList<>();
+
+        LinkedList<Integer> list = null;
+        while(!queue.isEmpty()){
+            list = new LinkedList();
+            for(int i=queue.size();i>0;i--){
+                cur = queue.poll();
+                if(res.size()%2==0){
+                    list.addLast(cur.value);
+                }else{
+                    list.addFirst(cur.value);
+                }
+                if(cur.left!=null){queue.add(cur.left);}
+                if(cur.right!=null){queue.add(cur.right);}
+            }
+            res.add(list);
+        }
+        return res;
     }
 
 

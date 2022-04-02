@@ -28,5 +28,32 @@ public class DeleteGiveValue {
         }
         return head;
     }
+    public static int[] removeValue(Node head){
+//        if(head==null)return new int[]{};
+        Node pre=null;
+        Node next=null;
+        int count =0;
 
+        while(head!=null){
+            next=head.next;
+            head.next = pre;
+            pre=head;
+            head=next;
+            count++;
+        }
+
+        int[] res = new int[count];
+        for(int i=0;i<count;i++){
+            res[i]=pre.value;
+            pre = pre.next;
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        Node head = new Node(1);
+        head.next=new Node(3);
+        head.next.next=new Node(2);
+        removeValue(head);
+    }
 }

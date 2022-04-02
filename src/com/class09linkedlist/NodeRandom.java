@@ -48,53 +48,118 @@ public class NodeRandom {
      * @return
      */
     private static Node copyRandomNode_02(Node head){
-        if (head==null)return null;
+        if (head == null) {
+            return null;
+        }
         Node cur = head;
-        Node next;
-        //①->①‘->②->②’。。。。
-        while (cur!=null){
-            next=cur.next;
-            cur.next=new Node(cur.value);
-            cur.next.next=next;
-            cur=next;
+        Node next = null;
+        // copy node and link to every node
+        // 1 -> 2
+        // 1 -> 1' -> 2-> 2'
+        while (cur != null) {
+            // cur 老 next 老的下一个
+            next = cur.next;
+            cur.next = new Node(cur.value);
+            cur.next.next = next;
+            cur = next;
         }
-        cur=head;
-        //找到复制节点的random指向
-        while (cur!=null){
-            cur.next.random=cur.random==null?null:cur.random.next;
-            cur=cur.next;
+        cur = head;
+        Node curCopy = null;
+        // set copy node rand
+        // 1 -> 1' -> 2 -> 2'
+        while (cur != null) {
+            // cur 老
+            // cur.next 新 copy
+            next = cur.next.next;
+            curCopy = cur.next;
+            curCopy.random = cur.random != null ? cur.random.next : null;
+            cur = next;
         }
-        cur=head;
-        Node head1=cur.next;
-//        只有一个节点时直接返回
-        if(head1.next==null)return head1;
-        while (head1.next.next!=null){
-            cur=cur.next.next;
-            head1=head1.next.next;
+        // head head.next
+        cur = head;
+        Node res=cur.next;
+        // split
+        while (cur != null) {
+            next = cur.next.next;
+            curCopy = cur.next;
+            cur.next = next;
+            curCopy.next = next != null ? next.next : null;
+            cur = next;
         }
-        return head1;
+        return res;
     }
-    public static void main(String[] args) {
-        Node head = new Node(1);
-        head.next= new Node(2);
-        head.next.next= new Node(5);
-        head.next.next.next= new Node(3);
-        head.next.next.next.next= new Node(7);
-        head.random=head.next.next;
-        head.next.random= null;
-        head.next.next.random= head;
-        head.next.next.next.random= head.next;
-        head.next.next.next.next.random= head.next.next;
-        Node node01=copyRandomNode_01(head);
-        Node node02=copyRandomNode_02(head);
-        boolean flag=true;
-        while (node01!=null){
-            if (node01.value!=node02.value||node01.random.value!=node02.random.value){
-                flag=false;
+    public static int search(int[] nums) {
+        int n=nums.length-1;
+        int i=0;
+        while(i<=n){
+            if(nums[i]!=i){
+                return i;
             }
-            node01=node01.next;
-            node02=node02.next;
+            i++;
         }
-        if (flag) System.out.println("success");
+        return i;
+    }
+
+    public static void main(String[] args) {
+        int[] s = new int[]{0};
+        System.out.println(search(s));
+    }
+    public static void main1(String[] args) {
+        Node head = null;
+        Node res1 = null;
+        Node res2 = null;
+        printRandLinkedList(head);
+        res1 = copyRandomNode_01(head);
+        printRandLinkedList(res1);
+        res2 = copyRandomNode_02(head);
+        printRandLinkedList(res2);
+        printRandLinkedList(head);
+        System.out.println("=========================");
+
+        head = new Node(1);
+        head.next = new Node(2);
+        head.next.next = new Node(3);
+        head.next.next.next = new Node(4);
+        head.next.next.next.next = new Node(5);
+        head.next.next.next.next.next = new Node(6);
+
+        head.random = head.next.next.next.next.next; // 1 -> 6
+        head.next.random = head.next.next.next.next.next; // 2 -> 6
+        head.next.next.random = head.next.next.next.next; // 3 -> 5
+        head.next.next.next.random = head.next.next; // 4 -> 3
+        head.next.next.next.next.random = null; // 5 -> null
+        head.next.next.next.next.next.random= head.next.next.next; // 6 -> 4
+
+        System.out.println("原始链表：");
+        printRandLinkedList(head);
+        System.out.println("=========================");
+        res1 = copyRandomNode_01(head);
+        System.out.println("方法一的拷贝链表：");
+        printRandLinkedList(res1);
+        System.out.println("=========================");
+        res2 = copyRandomNode_02(head);
+        System.out.println("方法二的拷贝链表：");
+        printRandLinkedList(res2);
+        System.out.println("=========================");
+        System.out.println("经历方法二拷贝之后的原始链表：");
+        printRandLinkedList(head);
+        System.out.println("=========================");
+    }
+
+    public static void printRandLinkedList(Node head) {
+        Node cur = head;
+        System.out.print("order: ");
+        while (cur != null) {
+            System.out.print(cur.value + " ");
+            cur = cur.next;
+        }
+        System.out.println();
+        cur = head;
+        System.out.print("rand:  ");
+        while (cur != null) {
+            System.out.print(cur.random == null ? "- " : cur.random.value + " ");
+            cur = cur.next;
+        }
+        System.out.println();
     }
 }

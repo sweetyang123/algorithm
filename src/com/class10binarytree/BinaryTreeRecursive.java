@@ -1,5 +1,9 @@
 package com.class10binarytree;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
 /**
  * 二叉树的
  * 先序：头左右；
@@ -32,7 +36,7 @@ public class BinaryTreeRecursive {
     }
     //后序遍历
     private void post(Node head){
-        if (head==null)return;
+        if (head==null)return ;
         if (head.left!=null)post(head.left);
         if (head.right!=null)post(head.right);
         System.out.print(head.value+" ");

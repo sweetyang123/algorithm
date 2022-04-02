@@ -26,7 +26,7 @@ public class IsCBT {
      * @param head
      * @return
      */
-    private boolean process(Node head){
+    private boolean process(Node head) {
         if (head==null)return true;
         Queue<Node> queue = new LinkedList();
         boolean leaf=false;
