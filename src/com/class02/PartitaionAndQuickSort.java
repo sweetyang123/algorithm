@@ -11,36 +11,39 @@ public class PartitaionAndQuickSort {
         }
         process(arr, 0, arr.length - 1);
     }
-    public static void process(int[] arr,int L,int R){
-        if (L>=R)return;
+
+    public static void process(int[] arr, int L, int R) {
+        if (L >= R) return;
         swap(arr, L + (int) (Math.random() * (R - L + 1)), R);
-       int[] equalArea= netherlandsFlag(arr,L,R);
-       process(arr,L,equalArea[0]-1);
-       process(arr,equalArea[1]+1,R);
+        int[] equalArea = netherlandsFlag(arr, L, R);
+        process(arr, L, equalArea[0] - 1);
+        process(arr, equalArea[1] + 1, R);
     }
+
     //荷兰国旗划分
     private static int[] netherlandsFlag(int[] arr, int l, int r) {
-        if (l>r)return  new int[]{-1,-1};
-        if (l==r)return new int[]{l,r};
-        int index=l,less=l-1,more=r;
-        while (index<more){
-            if (arr[index]==arr[r]){
+        if (l > r) return new int[]{-1, -1};
+        if (l == r) return new int[]{l, r};
+        int index = l, less = l - 1, more = r;
+        while (index < more) {
+            if (arr[index] == arr[r]) {
                 index++;
-            }else if (arr[index]<arr[r]){
-                swap(arr,index++,++less);
-            }else {
-                swap(arr,index,--more);
+            } else if (arr[index] < arr[r]) {
+                swap(arr, index++, ++less);
+            } else {
+                swap(arr, index, --more);
             }
         }
-        swap(arr,more,r);
-        return new int[]{less+1,more};
+        swap(arr, more, r);
+        return new int[]{less + 1, more};
     }
 
     private static void swap(int[] arr, int l, int r) {
-        int temp=arr[l];
-        arr[l]=arr[r];
-        arr[r]=temp;
+        int temp = arr[l];
+        arr[l] = arr[r];
+        arr[r] = temp;
     }
+
     // for test
     public static int[] generateRandomArray(int maxSize, int maxValue) {
         int[] arr = new int[(int) ((maxSize + 1) * Math.random())];

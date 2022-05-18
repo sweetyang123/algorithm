@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 public class Graph {
 
-    public HashMap<Integer,Node> nodes;
+    public HashMap<Integer, Node> nodes;
     public HashSet<Edge> edges;
 
     public Graph() {

@@ -10,23 +10,24 @@ import java.util.TreeSet;
  * 拼接起来，要求拼接结果的字典序要是最小的
  */
 public class MinDictionaryOrder {
-    private static String getDo(String[] strs){
-        if (strs.length==0||strs==null)return "";
+    private static String getDo(String[] strs) {
+        if (strs.length == 0 || strs == null) return "";
         return process(strs).first();
     }
+
     //1、所有字符串全排列
-    private static TreeSet<String> process(String[] strs){
+    private static TreeSet<String> process(String[] strs) {
         TreeSet<String> ans = new TreeSet<>();
-        if (strs.length==0){
+        if (strs.length == 0) {
             ans.add("");
             return ans;
         }
-        for (int i = 0; i <strs.length ; i++) {
-            String first=strs[i];
-            String[] nexts=removeIndexString(strs,i);
+        for (int i = 0; i < strs.length; i++) {
+            String first = strs[i];
+            String[] nexts = removeIndexString(strs, i);
             TreeSet<String> next = process(nexts);
-            for (String cur:next) {
-                ans.add(first+cur);
+            for (String cur : next) {
+                ans.add(first + cur);
             }
         }
         return ans;
@@ -34,32 +35,35 @@ public class MinDictionaryOrder {
 
     private static String[] removeIndexString(String[] strs, int i) {
         int N = strs.length;
-        String[] next = new String[N-1];
+        String[] next = new String[N - 1];
         int index = 0;
-        for (int j = 0; j <N ; j++) {
-            if (i!=j){
-                next[index++]=strs[j];
+        for (int j = 0; j < N; j++) {
+            if (i != j) {
+                next[index++] = strs[j];
             }
         }
         return next;
     }
+
     //贪心算法，排序，比较
-    public static class MyComparator implements Comparator<String>{
+    public static class MyComparator implements Comparator<String> {
         @Override
         public int compare(String o1, String o2) {
-            return (o1+o2).compareTo(o2+o1);
+            return (o1 + o2).compareTo(o2 + o1);
         }
     }
-    private static String process1(String[] strs){
-        if (strs.length==0||strs==null)return "";
+
+    private static String process1(String[] strs) {
+        if (strs.length == 0 || strs == null) return "";
         //根据自定义的比较器排序
-        Arrays.sort(strs,new MyComparator());
-        String res="";
-        for (int i = 0; i <strs.length ; i++) {
-            res+=strs[i];
+        Arrays.sort(strs, new MyComparator());
+        String res = "";
+        for (int i = 0; i < strs.length; i++) {
+            res += strs[i];
         }
         return res;
     }
+
     // for test
     public static String generateRandomString(int strLen) {
         char[] ans = new char[(int) (Math.random() * strLen) + 1];

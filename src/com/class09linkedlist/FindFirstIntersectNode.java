@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 
 public class FindFirstIntersectNode {
-    public static class Node{
+    public static class Node {
         int value;
         Node next;
 
@@ -22,40 +22,42 @@ public class FindFirstIntersectNode {
             this.value = value;
         }
     }
+
     //先查看链表是否有环并输出第一个成环节点:哈希表实现，在表里有值了就代表成环了
-    private static Node isIntersect_01(Node head){
-        Node cur=head;
-        HashMap<Node,Node> map = new HashMap<>();
-        while (cur!=null){
-            if (!map.containsKey(cur)){
-                map.put(cur,cur);
-            }else return cur;
-            cur=cur.next;
+    private static Node isIntersect_01(Node head) {
+        Node cur = head;
+        HashMap<Node, Node> map = new HashMap<>();
+        while (cur != null) {
+            if (!map.containsKey(cur)) {
+                map.put(cur, cur);
+            } else return cur;
+            cur = cur.next;
         }
         return null;
     }
 
     /**
      * 查看链表是否有环并输出第一个成环节点:快慢指针实现
-     *先当快慢指针第一次相遇时，将慢指针指向头，快指针继续前行，再次相遇时就是相交的第一个节点
+     * 先当快慢指针第一次相遇时，将慢指针指向头，快指针继续前行，再次相遇时就是相交的第一个节点
+     *
      * @param head
      * @return
      */
-    private static Node isIntersect_02(Node head){
-        if (head==null||head.next==null||head.next.next==null)return null;
-        Node slow=head.next;
-        Node fast=head.next.next;
+    private static Node isIntersect_02(Node head) {
+        if (head == null || head.next == null || head.next.next == null) return null;
+        Node slow = head.next;
+        Node fast = head.next.next;
         //第一次相遇
-        while (slow!=fast){
-            if (fast.next==null||fast.next.next==null)return null;
-            slow=slow.next;
-            fast=fast.next.next;
+        while (slow != fast) {
+            if (fast.next == null || fast.next.next == null) return null;
+            slow = slow.next;
+            fast = fast.next.next;
         }
 //        第二次相遇
-        slow=head;
-        while (slow!=fast){
-            slow=slow.next;
-            fast=fast.next;
+        slow = head;
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
         }
         return slow;
     }
@@ -66,23 +68,23 @@ public class FindFirstIntersectNode {
      * 则可以计算出两个链表相差节点的长度，然后让多的一个链表先走相差数，
      * 第一次相遇的节点就是第一个相交节点
      */
-    private static Node acyliIntersect(Node head1,Node head2){
-        Node cur1=head1;
-        Node cur2=head2;
-        int count=0;
-        while (cur1!=null){
+    private static Node acyliIntersect(Node head1, Node head2) {
+        Node cur1 = head1;
+        Node cur2 = head2;
+        int count = 0;
+        while (cur1 != null) {
             count++;
-            cur1=cur1.next;
+            cur1 = cur1.next;
         }
-        while (cur2!=null){
+        while (cur2 != null) {
             count--;
-            cur2=cur2.next;
+            cur2 = cur2.next;
         }
-        cur1=count>0?head1:head2;
-        cur2=cur1==head1?head2:head1;
+        cur1 = count > 0 ? head1 : head2;
+        cur2 = cur1 == head1 ? head2 : head1;
         count = Math.abs(count);
-        while (count-->0){
-            cur1=cur1.next;
+        while (count-- > 0) {
+            cur1 = cur1.next;
         }
 //        cur1=head1;
 //        cur2=head2;
@@ -96,58 +98,64 @@ public class FindFirstIntersectNode {
 //                cur2=cur2.next;
 //            }
 //        }
-        while (cur1!=null){
-            if (cur1.value==cur2.value)return cur1;
-            cur1=cur1.next;
-            cur2=cur2.next;
+        while (cur1 != null) {
+            if (cur1.value == cur2.value) return cur1;
+            cur1 = cur1.next;
+            cur2 = cur2.next;
         }
         return null;
     }
+
     /**
      * 有环相交（都有环）
      */
-    public static Node cyliIntersect(Node head1,Node head2,Node loop1,Node loop2) {
-        Node cur1=head1;
-        Node cur2=head2;
+    public static Node cyliIntersect(Node head1, Node head2, Node loop1, Node loop2) {
+        Node cur1 = head1;
+        Node cur2 = head2;
         //相交节点相同，则是Y字形共用节点共用环相交
-        if (loop1==loop2){
-            int count=0;
-            while (cur1!=loop1){
+        if (loop1 == loop2) {
+            int count = 0;
+            while (cur1 != loop1) {
                 count++;
-                cur1=cur1.next;
+                cur1 = cur1.next;
             }
-            while (cur2!=loop2){
+            while (cur2 != loop2) {
                 count--;
-                cur2=cur2.next;
+                cur2 = cur2.next;
             }
-            cur1=count>0?head1:head2;
-            cur2=cur1==head1?head2:head1;
-            count=Math.abs(count);
-            while (count-->0){
-                cur1=cur1.next;
+            cur1 = count > 0 ? head1 : head2;
+            cur2 = cur1 == head1 ? head2 : head1;
+            count = Math.abs(count);
+            while (count-- > 0) {
+                cur1 = cur1.next;
             }
-            while (cur1!=null){
-                if (cur1.value==cur2.value)return cur1;
-                cur1=cur1.next;
-                cur2=cur2.next;
+            while (cur1 != null) {
+                if (cur1.value == cur2.value) return cur1;
+                cur1 = cur1.next;
+                cur2 = cur2.next;
             }
-        }else {//共用一个环加两横的形式
-            cur1=loop1.next;
-            while (cur1!=loop1){
-                if (cur1==loop2)return loop2;
-                cur1=cur1.next;
+        } else {//共用一个环加两横的形式
+            cur1 = loop1.next;
+            while (cur1 != loop1) {
+                if (cur1 == loop2) return loop2;
+                cur1 = cur1.next;
             }
         }
-          return null;
-    }
-    private static Node firstIntersect(Node head1,Node head2){
-        if (head1==null||head2 ==null)return null;
-        Node loop1 = isIntersect_02(head1);
-        Node loop2 = isIntersect_02(head2);
-        if (loop1==null&&loop2==null){return acyliIntersect(head1,head2);}
-        else if (loop1!=null&&loop2!=null){return cyliIntersect(head1,head2,loop1,loop2);}
         return null;
     }
+
+    private static Node firstIntersect(Node head1, Node head2) {
+        if (head1 == null || head2 == null) return null;
+        Node loop1 = isIntersect_02(head1);
+        Node loop2 = isIntersect_02(head2);
+        if (loop1 == null && loop2 == null) {
+            return acyliIntersect(head1, head2);
+        } else if (loop1 != null && loop2 != null) {
+            return cyliIntersect(head1, head2, loop1, loop2);
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         Node head1 = new Node(1);
         head1.next = new Node(2);

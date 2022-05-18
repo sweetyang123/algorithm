@@ -11,43 +11,47 @@ import java.util.HashMap;
  */
 
 public class NodeRandom {
-    public static class Node{
+    public static class Node {
         int value;
         Node next;
         Node random;
+
         public Node(int value) {
             this.value = value;
         }
 
     }
+
     /**
      * 哈希表实现
+     *
      * @param head
      * @return
      */
-    private static Node copyRandomNode_01(Node head){
-        if (head==null)return null;
-        Node cur=head;
-        HashMap<Node,Node> map = new HashMap();
+    private static Node copyRandomNode_01(Node head) {
+        if (head == null) return null;
+        Node cur = head;
+        HashMap<Node, Node> map = new HashMap();
         //将链表的节点对象和值放到哈希表里
-        while (cur!=null){
-            map.put(cur,new Node(cur.value) );
-            cur= cur.next;
+        while (cur != null) {
+            map.put(cur, new Node(cur.value));
+            cur = cur.next;
         }
-        cur=head;
+        cur = head;
         //根据节点对象在哈希表中找到next节点和random节点
-        while (cur!=null){
+        while (cur != null) {
             map.get(cur).next = map.get(cur.next);
             map.get(cur).random = map.get(cur.random);
-            cur= cur.next;
+            cur = cur.next;
         }
         return map.get(head);
     }
+
     /**
      * @param head
      * @return
      */
-    private static Node copyRandomNode_02(Node head){
+    private static Node copyRandomNode_02(Node head) {
         if (head == null) {
             return null;
         }
@@ -77,7 +81,7 @@ public class NodeRandom {
         }
         // head head.next
         cur = head;
-        Node res=cur.next;
+        Node res = cur.next;
         // split
         while (cur != null) {
             next = cur.next.next;
@@ -88,11 +92,12 @@ public class NodeRandom {
         }
         return res;
     }
+
     public static int search(int[] nums) {
-        int n=nums.length-1;
-        int i=0;
-        while(i<=n){
-            if(nums[i]!=i){
+        int n = nums.length - 1;
+        int i = 0;
+        while (i <= n) {
+            if (nums[i] != i) {
                 return i;
             }
             i++;
@@ -104,6 +109,7 @@ public class NodeRandom {
         int[] s = new int[]{0};
         System.out.println(search(s));
     }
+
     public static void main1(String[] args) {
         Node head = null;
         Node res1 = null;
@@ -128,7 +134,7 @@ public class NodeRandom {
         head.next.next.random = head.next.next.next.next; // 3 -> 5
         head.next.next.next.random = head.next.next; // 4 -> 3
         head.next.next.next.next.random = null; // 5 -> null
-        head.next.next.next.next.next.random= head.next.next.next; // 6 -> 4
+        head.next.next.next.next.next.random = head.next.next.next; // 6 -> 4
 
         System.out.println("原始链表：");
         printRandLinkedList(head);

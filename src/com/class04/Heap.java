@@ -11,11 +11,13 @@ public class Heap {
         private int[] heap;
         private final int limit;
         private int heapsize;
+
         public MyMaxHeap(int limit) {
             heap = new int[limit];
             this.limit = limit;
             heapsize = 0;
         }
+
         public boolean isEmpty() {
             return heapsize == 0;
         }
@@ -23,6 +25,7 @@ public class Heap {
         public boolean isFull() {
             return heapsize == limit;
         }
+
         private void push(int value) {
             if (heapsize == limit) throw new RuntimeException("heap is full");
             heap[heapsize] = value;
@@ -136,7 +139,7 @@ public class Heap {
         heap.add(7);
         heap.add(0);
         System.out.println(heap.peek());
-        while(!heap.isEmpty()) {
+        while (!heap.isEmpty()) {
             System.out.println(heap.poll());
         }
 

@@ -1,7 +1,7 @@
 package com.class16graph;
 
 /**
- *  //从哪个节点到哪个节点，权重是多少
+ * //从哪个节点到哪个节点，权重是多少
  */
 public class Edge {
     public Node from;

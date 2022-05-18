@@ -8,7 +8,7 @@ import java.util.Stack;
  * 双向链表实现栈、队列
  */
 public class LinklistToStackAndQueue {
-    public static  class Node<T>{
+    public static class Node<T> {
         public T value;
         public Node<T> next;
         public Node<T> last;
@@ -17,87 +17,98 @@ public class LinklistToStackAndQueue {
             this.value = data;
         }
 
-        public static class DoubleToStackAndQueue<T>{
+        public static class DoubleToStackAndQueue<T> {
             public Node<T> head;
             public Node<T> tail;
+
             //从双向链表的头部加入
             public void addFromHead(T value) {
-                Node<T> cur=new Node<>(value);
-                if (head==null){
-                    head=cur;
-                    tail=cur;
-                }else {
-                    cur.next=head;
-                    head.last=cur;
-                    head=cur;
+                Node<T> cur = new Node<>(value);
+                if (head == null) {
+                    head = cur;
+                    tail = cur;
+                } else {
+                    cur.next = head;
+                    head.last = cur;
+                    head = cur;
                 }
             }
+
             //从双向链表的尾部加入
-            public void addFromBottom(T value){
-                Node<T> cur= new Node<T>(value);
-                if (head==null){
-                    head=cur;
-                    tail=cur;
-                }else {
-                    cur.last=tail;
-                    tail.next=cur;
-                    tail=cur;
+            public void addFromBottom(T value) {
+                Node<T> cur = new Node<T>(value);
+                if (head == null) {
+                    head = cur;
+                    tail = cur;
+                } else {
+                    cur.last = tail;
+                    tail.next = cur;
+                    tail = cur;
                 }
             }
+
             //从双向链表的头部弹出
-            public T popFromHead(){
-                if (head==null)return null;
+            public T popFromHead() {
+                if (head == null) return null;
                 Node<T> cur = head;
-                if (head==tail){
-                    head=null;
-                    tail=null;
-                }else {
-                    head=head.next;
-                    head.last=null;
-                    cur.next=null;
+                if (head == tail) {
+                    head = null;
+                    tail = null;
+                } else {
+                    head = head.next;
+                    head.last = null;
+                    cur.next = null;
                 }
                 return cur.value;
             }
+
             //从双向链表的尾部弹出
-            public T popFromBottom(){
-                if (head==null)return null;
-                Node<T> cur=tail;
-                if (head==tail){
-                    head=null;
-                    tail=null;
-                }else {
-                    tail=tail.last;
-                    tail.next=null;
-                    cur.last=null;
+            public T popFromBottom() {
+                if (head == null) return null;
+                Node<T> cur = tail;
+                if (head == tail) {
+                    head = null;
+                    tail = null;
+                } else {
+                    tail = tail.last;
+                    tail.next = null;
+                    cur.last = null;
                 }
                 return cur.value;
             }
         }
+
         //双向链表实现栈，先进后出，可头部进头部出或尾部进尾部出
-        public static class MyStack<T>{
+        public static class MyStack<T> {
             private DoubleToStackAndQueue<T> stackAndQueue;
+
             public MyStack() {
-                stackAndQueue=new DoubleToStackAndQueue<>();
+                stackAndQueue = new DoubleToStackAndQueue<>();
             }
-            public void push(T value){
+
+            public void push(T value) {
                 stackAndQueue.addFromHead(value);
             }
-            public T pop(){
-               return stackAndQueue.popFromHead();
+
+            public T pop() {
+                return stackAndQueue.popFromHead();
             }
         }
+
         //双向链表实现队列，先进先出 ，可头部进尾部出或尾部进头部出
-        public static class MyQueue<T>{
+        public static class MyQueue<T> {
             private DoubleToStackAndQueue<T> stackAndQueue;
 
             public MyQueue() {
-                 stackAndQueue=new DoubleToStackAndQueue<>();
+                stackAndQueue = new DoubleToStackAndQueue<>();
             }
-            public void push(T value){
+
+            public void push(T value) {
                 stackAndQueue.addFromHead(value);
             }
-            public T pop(){
-              return   stackAndQueue.popFromBottom();
+
+            public T pop() {
+                return stackAndQueue.popFromBottom();
             }
         }
 
@@ -113,6 +124,7 @@ public class LinklistToStackAndQueue {
             }
             return o1.equals(o2);
         }
+
         public static void main(String[] args) {
             int oneTestDataNum = 100;
             int value = 10000;

@@ -16,64 +16,71 @@ public class Light {
         }
         return process(road.toCharArray(), 0, new HashSet<>());
     }
+
     /**
      * str[index....]位置，自由选择放灯还是不放灯
      * str[0..index-1]位置呢？已经做完决定了，那些放了灯的位置，存在lights里
      * 要求选出能照亮所有.的方案，并且在这些有效的方案中，返回最少需要几个灯
+     *
      * @param str
      * @param index
      * @param lights
      * @return
      */
-    public static int process(char[] str, int index, HashSet<Integer> lights){
+    public static int process(char[] str, int index, HashSet<Integer> lights) {
         //结束时
-        if (index==str.length){
-            for (int i = 0; i <str.length ; i++) {
-                if (str[i]=='.'){
-                    if (!lights.contains(i-1)&&!lights.contains(i)&&!lights.contains(i+1))return
+        if (index == str.length) {
+            for (int i = 0; i < str.length; i++) {
+                if (str[i] == '.') {
+                    if (!lights.contains(i - 1) && !lights.contains(i) && !lights.contains(i + 1)) return
                             Integer.MAX_VALUE;
                 }
             }
             return lights.size();
-        }else {
+        } else {
             //还未结束时
-            int no= process(str,index+1,lights);
+            int no = process(str, index + 1, lights);
             int yes = Integer.MAX_VALUE;
-            if (str[index]=='.'){
+            if (str[index] == '.') {
                 lights.add(index);
-                yes=process(str,index+1,lights);
+                yes = process(str, index + 1, lights);
                 lights.remove(index);
             }
-            return Math.min(yes,no);
+            return Math.min(yes, no);
         }
     }
+
     /**
      * 判断i位置是X还是.，如果是X则不管，如果是.再判断i+1是X还是.。
+     *
      * @param str
      * @return
      */
-    private static int process(String str){
-        if (str==null)return 0;
+    private static int process(String str) {
+        if (str == null) return 0;
         char[] strings = str.toCharArray();
-        int light=0,i=0;
-        while (i<strings.length){
+        int light = 0, i = 0;
+        while (i < strings.length) {
             //当i为X时，不放灯，到i+1去做决定
-            if (strings[i]=='X'){
+            if (strings[i] == 'X') {
                 i++;
-            }else {
+            } else {
 //                如果i为.时则放灯
                 light++;
-                if (i+1==str.length())break;
+                if (i + 1 == str.length()) break;
 //                当i+1为X时，在i位置放灯，去i+2做决定
-                else  {
-                    if (strings[i+1]=='X'){i=i+2;}
+                else {
+                    if (strings[i + 1] == 'X') {
+                        i = i + 2;
+                    }
 //                当i+1为.时，在i+1处放灯，不管i+2是什么，直接去i+3做决定
-                    else if (strings[i+1]=='.')i=i+3;
+                    else if (strings[i + 1] == '.') i = i + 3;
                 }
             }
         }
         return light;
     }
+
     // for test
     public static String randomString(int len) {
         char[] res = new char[(int) (Math.random() * len) + 1];

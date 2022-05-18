@@ -16,18 +16,20 @@ public class ReverseStack {
         reverse(stack);
         stack.push(i);
     }
+
     /**
      * 栈底元素移除掉
      * 上面的元素盖下来
      * 返回移除掉的栈底元素
+     *
      * @param stack
      * @return
      */
-    private static int reverseStack(Stack<Integer> stack){
+    private static int reverseStack(Stack<Integer> stack) {
         int cur = stack.pop();
-        if (stack.isEmpty()){
+        if (stack.isEmpty()) {
             return cur;
-        }else {
+        } else {
             int last = reverseStack(stack);
             stack.push(cur);
             return last;
@@ -40,7 +42,7 @@ public class ReverseStack {
         stack.push(2);
         stack.push(3);
         reverse(stack);
-        while (!stack.empty()){
+        while (!stack.empty()) {
             System.out.println(stack.pop());
         }
     }

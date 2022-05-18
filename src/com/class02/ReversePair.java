@@ -1,45 +1,47 @@
 package com.class02;
 
 /**
- *求一个数组的（X，Y）逆序对，X>Y，且X的位置在Y的前面
+ * 求一个数组的（X，Y）逆序对，X>Y，且X的位置在Y的前面
  */
 public class ReversePair {
-    public static int reversePair(int[] arr){
-        if (arr.length<2||arr==null)return 0;
-        return process(arr,0,arr.length-1);
+    public static int reversePair(int[] arr) {
+        if (arr.length < 2 || arr == null) return 0;
+        return process(arr, 0, arr.length - 1);
     }
-    public static int process(int[] arr,int L,int R){
-        if(R==L)return 0;
-        int M=L+((R-L)>>1);
-        return process(arr,L,M)+process(arr,M+1,R)+merge(arr,L,M,R);
+
+    public static int process(int[] arr, int L, int R) {
+        if (R == L) return 0;
+        int M = L + ((R - L) >> 1);
+        return process(arr, L, M) + process(arr, M + 1, R) + merge(arr, L, M, R);
     }
 
     private static int merge(int[] arr, int l, int m, int r) {
-        int[] help=new int[r-l+1];
-        int N=help.length-1;int i=N;
-        int p1=m,p2=r;
-        int sum=0;
-        while (p1>=l&&p2>m){
-            if (arr[p1]>arr[p2]){
-                for (int j = m+1; j <=p2; j++) {
+        int[] help = new int[r - l + 1];
+        int N = help.length - 1;
+        int i = N;
+        int p1 = m, p2 = r;
+        int sum = 0;
+        while (p1 >= l && p2 > m) {
+            if (arr[p1] > arr[p2]) {
+                for (int j = m + 1; j <= p2; j++) {
 //                    输出逆序对
-                    System.out.print(arr[p1]+"---"+arr[j]+"；");
+                    System.out.print(arr[p1] + "---" + arr[j] + "；");
                 }
             }
             //倒序判断累加
-            sum+=arr[p1]>arr[p2]?(p2-m):0;
-            help[i--]=arr[p1]>arr[p2]?arr[p1--]:arr[p2--];
+            sum += arr[p1] > arr[p2] ? (p2 - m) : 0;
+            help[i--] = arr[p1] > arr[p2] ? arr[p1--] : arr[p2--];
         }
-        while (p1>=l){
-            help[i--]=arr[p1--];
+        while (p1 >= l) {
+            help[i--] = arr[p1--];
         }
-        while (p2>m){
-            help[i--]=arr[p2--];
+        while (p2 > m) {
+            help[i--] = arr[p2--];
         }
         for (int j = 0; j < help.length; j++) {
-            arr[l+j]=help[j];
+            arr[l + j] = help[j];
         }
-        return  sum;
+        return sum;
     }
 
     // for test
@@ -111,13 +113,13 @@ public class ReversePair {
         int testTime = 1;
         int maxSize = 5;
         int maxValue = 10;
-        boolean succed=true;
+        boolean succed = true;
         System.out.println("测试开始");
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
             printArray(arr1);
-            System.out.println(reversePair(arr1)+"======="+comparator(arr2));
+            System.out.println(reversePair(arr1) + "=======" + comparator(arr2));
 //            if (reversePair(arr1) != comparator(arr2)) {
 //                succed=false;
 //                System.out.println("Oops!");
@@ -126,6 +128,6 @@ public class ReversePair {
 //                break;
 //            }
         }
-        System.out.println("测试结束"+(succed?"Nice":"Bad"));
+        System.out.println("测试结束" + (succed ? "Nice" : "Bad"));
     }
 }

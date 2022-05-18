@@ -1,40 +1,42 @@
 package com.class02;
 
 /**
- *3、在一个数组中，对于每个数num,求有多少个后面的数*2<num，求总个数
+ * 3、在一个数组中，对于每个数num,求有多少个后面的数*2<num，求总个数
  */
 public class BiggerThanRightTwice {
-    public static int biggerTwice(int[] arr){
-        if (arr.length<2||arr==null)return 0;
-        return process(arr,0,arr.length-1);
+    public static int biggerTwice(int[] arr) {
+        if (arr.length < 2 || arr == null) return 0;
+        return process(arr, 0, arr.length - 1);
     }
-    public static int process(int[] arr,int L,int R){
-        if(R==L)return 0;
-        int M=L+((R-L)>>1);
-        return process(arr,L,M)+process(arr,M+1,R)+merge(arr,L,M,R);
+
+    public static int process(int[] arr, int L, int R) {
+        if (R == L) return 0;
+        int M = L + ((R - L) >> 1);
+        return process(arr, L, M) + process(arr, M + 1, R) + merge(arr, L, M, R);
     }
 
     private static int merge(int[] arr, int l, int m, int r) {
-        int[] help=new int[r-l+1];
-        int sum=0,winR=m+1;int i=0;
-        int p1=l,p2=m+1;
-        for (int j = l; j <m+1 ; j++) {
-            while (winR<=r&&arr[j]>arr[winR]*2){
+        int[] help = new int[r - l + 1];
+        int sum = 0, winR = m + 1;
+        int i = 0;
+        int p1 = l, p2 = m + 1;
+        for (int j = l; j < m + 1; j++) {
+            while (winR <= r && arr[j] > arr[winR] * 2) {
                 winR++;
             }
-            sum+=winR-m-1;
+            sum += winR - m - 1;
         }
-        while (p1<=m&&p2<=r){
-            help[i++]=arr[p1]<=arr[p2]?arr[p1++]:arr[p2++];
+        while (p1 <= m && p2 <= r) {
+            help[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
         }
-        while (p1<=m){
-            help[i++]=arr[p1++];
+        while (p1 <= m) {
+            help[i++] = arr[p1++];
         }
-        while (p2<=r){
-            help[i++]=arr[p2++];
+        while (p2 <= r) {
+            help[i++] = arr[p2++];
         }
         for (int j = 0; j < help.length; j++) {
-            arr[l+j]=help[j];
+            arr[l + j] = help[j];
         }
         return sum;
     }
@@ -108,7 +110,7 @@ public class BiggerThanRightTwice {
         int testTime = 50000;
         int maxSize = 100;
         int maxValue = 100;
-        boolean flag=true;
+        boolean flag = true;
         System.out.println("测试开始");
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
@@ -119,11 +121,11 @@ public class BiggerThanRightTwice {
                 System.out.println("Oops!");
                 printArray(arr1);
                 printArray(arr2);
-                flag=false;
+                flag = false;
                 break;
             }
         }
-        System.out.println("测试结束"+(flag?"Nice":"Bad"));
+        System.out.println("测试结束" + (flag ? "Nice" : "Bad"));
     }
 
 }

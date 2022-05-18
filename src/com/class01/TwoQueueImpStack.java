@@ -1,45 +1,51 @@
 package com.class01;
-import	java.util.LinkedList;
+
+import java.util.LinkedList;
 import java.util.Queue;
 
 
 public class TwoQueueImpStack {
-    public static class QueueToStack<T>{
+    public static class QueueToStack<T> {
         public Queue<T> queue;
         public Queue<T> help;
 
         public QueueToStack() {
-            this.queue=new LinkedList<T>();
-            this.help=new LinkedList<T>();
+            this.queue = new LinkedList<T>();
+            this.help = new LinkedList<T>();
         }
-        private void push(T num){
+
+        private void push(T num) {
             queue.offer(num);
         }
-        private T pop(){
-           while (queue.size()>1){
-               help.offer(queue.poll());
-           }
-          T value= queue.poll();
-           Queue<T> temp = queue;
-           queue=help;
-           help=temp;
-           return value;
-        }
-        private T peek(){
-            while (queue.size()>1){
+
+        private T pop() {
+            while (queue.size() > 1) {
                 help.offer(queue.poll());
             }
-            T value= queue.poll();
+            T value = queue.poll();
+            Queue<T> temp = queue;
+            queue = help;
+            help = temp;
+            return value;
+        }
+
+        private T peek() {
+            while (queue.size() > 1) {
+                help.offer(queue.poll());
+            }
+            T value = queue.poll();
             //将要弹出的数据压入栈顶
             help.offer(value);
             Queue<T> temp = queue;
-            queue=help;
-            help=temp;
+            queue = help;
+            help = temp;
             return value;
         }
+
         public boolean isEmpty() {
             return queue.isEmpty();
         }
+
         public static void main(String[] args) {
             System.out.println("test begin");
             QueueToStack<Integer> myStack = new QueueToStack<>();

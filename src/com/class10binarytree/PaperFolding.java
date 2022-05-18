@@ -10,14 +10,15 @@ package com.class10binarytree;
  * 相当于一颗二叉树，中序遍历就可以了
  */
 public class PaperFolding {
-    private void process(int i,int N,boolean down){
-        if (i>N)return;
-        process(i+1,N,true);
-        System.out.print((down==true?"凹":"凸")+" ");
-        process(i+1,N,false);
+    private void process(int i, int N, boolean down) {
+        if (i > N) return;
+        process(i + 1, N, true);
+        System.out.print((down == true ? "凹" : "凸") + " ");
+        process(i + 1, N, false);
     }
+
     public static void main(String[] args) {
         PaperFolding p = new PaperFolding();
-        p.process(1,3,true);
+        p.process(1, 3, true);
     }
 }
